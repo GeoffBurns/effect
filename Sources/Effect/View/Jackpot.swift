@@ -8,7 +8,7 @@
 import SwiftUI
 import Utilities
 
-struct CoinView: View {
+public struct CoinView: View {
     var num : Int
     var move : CGFloat
     var frame : CGSize
@@ -16,7 +16,7 @@ struct CoinView: View {
     var posX : CGFloat  { CGFloat(Int(frame.width*0.6).random) + frame.width*0.2}
     
     var posY : CGFloat  { CGFloat(Int(frame.height*0.7).random) - frame.height*0.4}
-    var body: some View {
+    public var body: some View {
         ZStack
             {
         
@@ -33,10 +33,14 @@ struct CoinView: View {
  
     }
     
-struct Jackpot: View {
+public struct Jackpot: View {
     @State private var isShowing : Bool = false
     @State private var move : CGFloat = 0
     
+    public init()
+    {
+        
+    }
     fileprivate func youHaveWon() {
         self.isShowing = true
         withAnimation(.linear(duration: 1.2)) {
@@ -47,7 +51,7 @@ struct Jackpot: View {
             self.move = 0
         }
     }
-    var body: some View {
+    public var body: some View {
         ZStack
             {
             GeometryReader { geo in

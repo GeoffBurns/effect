@@ -7,7 +7,7 @@
 import Combine
 import SwiftUI
 
-protocol ISoundSettings {
+public protocol ISoundSettings {
     var isPlaying : Bool { get set }
     var volume : Float { get set }
 }

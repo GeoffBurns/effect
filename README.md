@@ -1,3 +1,3 @@
-# PlayingCard
+# SwiftUI Sound and Image Effects
 
-Playing Card Library for creating card games
+Utilities for sound effects and visual effects

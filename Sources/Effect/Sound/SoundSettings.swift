@@ -28,10 +28,15 @@ public class Sound: ObservableObject, ISoundSettings {
     {
         player.playFastSound("fail_buzzer")
     }
-     static public func click()
-    {
-        player.playFastSound("shutter_click")
-    }
+    static public func click()
+   {
+       player.playFastSound("shutter_click")
+   }
+    static public func sad()
+   {
+       player.playFastSound("sad_trombone")
+   }
+    
 }
 
 public class Music: ObservableObject, ISoundSettings {

@@ -29,6 +29,7 @@ let package = Package(
                 .process("Sound/fail_buzzer.mp3"),
                 .process("Sound/magic_chime.mp3"),
                 .process("Sound/shutter_click.mp3"),
+                .process("Sound/sad_trombone.mp3"),
             ])
     ]
 )

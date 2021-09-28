@@ -24,6 +24,11 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "Effect",
-            dependencies: ["Utilities"]),
+            dependencies: ["Utilities"],
+            resources: [
+                .process("Sound/fail_buzzer.mp3"),
+                .process("Sound/magic_chime.mp3"),
+                .process("Sound/shutter_click.mp3"),
+            ])
     ]
 )

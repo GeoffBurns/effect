@@ -7,6 +7,7 @@
 
 
 import Foundation
+import Utilities
 
 #if os(macOS)
 
@@ -49,8 +50,7 @@ public class SoundManager : NSObject
             return sound
         }
         
-      //  let lower = key.lowercased().underscore
-        let lower = key.lowercased()
+        let lower = key.lowercased().underscore
         let localkey = lower
         guard let url = Sound.resource.url(localkey)
             else { return nil }
@@ -268,10 +268,7 @@ public class SoundManager : NSObject, AVAudioPlayerDelegate
             return sound
         }
         
-     //   let lower = key.lowercased().underscore
-        let lower = key.lowercased()
-        
-         
+        let lower = key.lowercased().underscore
         guard let url =  Sound.resource.url(lower) else { return nil }
         do {
             
@@ -424,7 +421,6 @@ public class SoundManager : NSObject, AVAudioPlayerDelegate
     }
     public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         
-        
         while true {
             guard soundQueue.count > 0 else {
                 isPlaying = false
@@ -436,5 +432,4 @@ public class SoundManager : NSObject, AVAudioPlayerDelegate
     }
     
 }
-
 #endif

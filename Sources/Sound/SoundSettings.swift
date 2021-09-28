@@ -12,13 +12,13 @@ protocol ISoundSettings {
     var volume : Float { get set }
 }
 
-class Sound: ObservableObject, ISoundSettings {
-    static var shared : ISoundSettings = Sound()
-    static var resource : IResourceRegistry = SoundRegistry()
-    static var player : SoundManager = SoundManager()
+public class Sound: ObservableObject, ISoundSettings {
+    public static var shared : ISoundSettings = Sound()
+    public static var resource : IResourceRegistry = SoundRegistry()
+    public static var player : SoundManager = SoundManager()
     
-    @Published var isPlaying : Bool = true
-    @Published var volume : Float = 0.3
+    @Published public var isPlaying : Bool = true
+    @Published public var volume : Float = 0.3
     
     static public func chime()
     {
@@ -34,11 +34,11 @@ class Sound: ObservableObject, ISoundSettings {
     }
 }
 
-class Music: ObservableObject, ISoundSettings {
-    static var shared : ISoundSettings = Music()
-    static var resource : IResourceRegistry = MusicRegistry()
-    static var player : SoundManager { get { Sound.player }}
+public class Music: ObservableObject, ISoundSettings {
+    public static var shared : ISoundSettings = Music()
+    public static var resource : IResourceRegistry = MusicRegistry()
+    public static var player : SoundManager { get { Sound.player }}
     
-    @Published var isPlaying : Bool = true
-    @Published var volume : Float = 0.3
+    @Published public var isPlaying : Bool = true
+    @Published public var volume : Float = 0.3
 }

@@ -34,6 +34,7 @@ public class SoundManager : NSObject
         {
             return song
         }
+        guard playlist.count > i else { return nil }
         let playitem = playlist[i]
         guard let url = Sound.resource.url(playitem) else { return nil }
       
@@ -185,6 +186,7 @@ public class SoundManager : NSObject
         }
     }
     public func playMusic(_ n: Int = 0) {
+        guard n < 7 && playlist.count > n else { return }
         stopAllMusic(except:n)
         guard Music.shared.isPlaying else {
             stopAllMusic()
@@ -242,12 +244,14 @@ public class SoundManager : NSObject, AVAudioPlayerDelegate
     public var isPlaying = false
     func songs(_ index:Int) -> AVAudioPlayer?
     {
+        
         let i = index % _songs.count
         
         if let song = _songs[i]
         {
             return song
         }
+        guard playlist.count > i else { return }
         let playitem = playlist[i]
         guard let url =  Sound.resource.url(playitem) else { return nil }
         do {
@@ -408,6 +412,8 @@ public class SoundManager : NSObject, AVAudioPlayerDelegate
         }
     }
     public func playMusic(_ n: Int = 0) {
+        guard n < 7 && playlist.count > n else { return }
+        
         stopAllMusic(except:n)
         guard Music.shared.isPlaying else {
             stopAllMusic()

@@ -21,10 +21,14 @@ public class Sound: ObservableObject, ISoundSettings {
             Sound.player.stopAllSound()
         }
     }}
-    @Published public var volume : Float  = Sound.defaults.volume { didSet {
+    @Published public var volume : Float  = Sound.defaults.volume
+    
+    public func save()
+    {
         Sound.defaults.volume = self.volume
         Sound.player.soundVolume(volume: self.volume)
-    }}
+    }
+    
     static public func chime()
     {
         player.playFastSound("magic_chime")
@@ -41,13 +45,12 @@ public class Sound: ObservableObject, ISoundSettings {
    {
        player.playFastSound("sad_trombone")
    }
-    
 }
 
 public class Music: ObservableObject, ISoundSettings { 
     public static let settings : Music = Music()
     public static var shared : ISoundSettings { settings }
-    public static var defaults : ISoundSettings = MusicDefaults()  
+    public static var defaults : ISoundSettings = MusicDefaults()
     public static var resource : IResourceRegistry = MusicRegistry()
     public static var player : SoundManager { get { Sound.player }}
      
@@ -59,8 +62,11 @@ public class Music: ObservableObject, ISoundSettings {
             Music.player.stopAllMusic()
         }
     }}
-    @Published public var volume : Float = Music.defaults.volume { didSet {
+    @Published public var volume : Float = Music.defaults.volume
+    
+    public func save()
+    {
         Music.defaults.volume = self.volume
         Music.player.musicVolume(volume: self.volume)
-    }}
+    }
 }

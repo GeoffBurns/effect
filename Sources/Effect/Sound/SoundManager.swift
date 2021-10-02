@@ -251,7 +251,7 @@ public class SoundManager : NSObject, AVAudioPlayerDelegate
         {
             return song
         }
-        guard playlist.count > i else { return }
+        guard playlist.count > i else { return nil }
         let playitem = playlist[i]
         guard let url =  Sound.resource.url(playitem) else { return nil }
         do {

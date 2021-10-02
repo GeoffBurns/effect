@@ -11,12 +11,7 @@ import SwiftUI
 public class Sound: ObservableObject, ISoundSettings {
     public static let settings : Sound = Sound()
     public static var shared : ISoundSettings { settings }
-    public static var defaults : ISoundSettings = SoundDefaults() {
-        didSet{
-            settings.isPlaying = defaults.isPlaying
-            settings.volume = defaults.volume
-        }
-    }
+    public static var defaults : ISoundSettings = SoundDefaults()
     public static var resource : IResourceRegistry = SoundRegistry()
     public static var player : SoundManager = SoundManager()
     
@@ -52,12 +47,7 @@ public class Sound: ObservableObject, ISoundSettings {
 public class Music: ObservableObject, ISoundSettings { 
     public static let settings : Music = Music()
     public static var shared : ISoundSettings { settings }
-    public static var defaults : ISoundSettings = MusicDefaults() {
-        didSet{
-            settings.isPlaying = defaults.isPlaying
-            settings.volume = defaults.volume
-        }
-    }
+    public static var defaults : ISoundSettings = MusicDefaults()  
     public static var resource : IResourceRegistry = MusicRegistry()
     public static var player : SoundManager { get { Sound.player }}
      

@@ -15,10 +15,8 @@ import AppKit
 
 public class SoundManager : NSObject
 {
-    public var playlist : [String] = []
     public var lastSounds : [String] = []
     fileprivate var previousRequest : String = ""
-    public var _songs =  [NSSound?] (repeating: nil, count: 7)
     fileprivate var soundQueue : [String] = []
     public var _sounds =  [String : NSSound?] ()
     override init() {
@@ -26,24 +24,7 @@ public class SoundManager : NSObject
         super.init()
     }
     public var isPlaying = false
-    func songs(_ index:Int) -> NSSound?
-    {
-        let i = index % _songs.count
-        
-        if let song = _songs[i]
-        {
-            return song
-        }
-        guard playlist.count > i else { return nil }
-        let playitem = playlist[i]
-        guard let url = Music.resource.url(playitem) else { return nil }
-      
-        _songs[i] = NSSound(contentsOfFile: url.description, byReference: true)
-            
-            return _songs[i]
-  
-    
-    }
+ 
     func sounds(_ key:String) -> NSSound?
     {
         if let sound = _sounds[key]
@@ -67,7 +48,7 @@ public class SoundManager : NSObject
     {
         self.previousRequest = soundName
         guard Sound.shared.isPlaying else {
-            stopAllSound()
+            stopAll()
             return }
         
         guard let sound = sounds(soundName) else {return}
@@ -90,7 +71,7 @@ public class SoundManager : NSObject
     {
          self.previousRequest = soundName
         guard Sound.shared.isPlaying else {
-            stopAllSound()
+            stopAll()
             return }
         
         guard let sound = sounds(soundName) else {return}
@@ -108,14 +89,14 @@ public class SoundManager : NSObject
     {
          self.previousRequest = soundName
         guard Sound.shared.isPlaying else {
-            stopAllSound()
+            stopAll()
             return }
         
         guard let sound = sounds(soundName) else {return}
         if isPlaying {
             soundQueue.removeAll()
             soundQueue.append(soundName)
-            stopAllSound()
+            stopAll()
             return
         }
         isPlaying = true
@@ -127,7 +108,7 @@ public class SoundManager : NSObject
     public func playQueuedSound(_ soundName: String) -> Bool
     {
         guard Sound.shared.isPlaying else {
-            stopAllSound()
+            stopAll()
             return true }
         
         guard let sound = sounds(soundName) else {return false}
@@ -147,21 +128,7 @@ public class SoundManager : NSObject
             playSound(soundName)
         }
     }
-    public func stopAllMusic(except:Int)
-    {
-        for (i,song) in _songs.enumerated() where song != nil && i != except
-        {
-            song!.stop()
-        }
-    }
-    public func stopAllMusic()
-    {
-        for song in _songs where song != nil
-        {
-            song!.stop()
-        }
-    }
-    public func stopAllSound()
+    public func stopAll()
     {
         soundQueue = []
         for (_, sound) in _sounds where sound != nil
@@ -169,33 +136,13 @@ public class SoundManager : NSObject
             sound!.stop()
         }
     }
-    public func musicVolume(volume:Float)
-    {
-        for song in _songs where song != nil
-        {
-            song!.volume = volume
-        }
-    }
-    public func soundVolume(volume:Float)
+    public func volume(_ volume:Float)
     {
         for (_, sound) in _sounds where sound != nil
         {
             sound!.volume = volume
         }
-    }
-    public func playMusic(_ n: Int = 0) {
-        guard n < 7 && playlist.count > n else { return }
-        stopAllMusic(except:n)
-        guard Music.shared.isPlaying else {
-            stopAllMusic()
-            return }
-        guard let song = songs(n) else { return }
-        
-        song.loops = false
-        song.volume =  Music.shared.volume
-        if song.isPlaying {return}
-        song.play()
-    }
+    } 
     /*
     public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         
@@ -215,53 +162,41 @@ public class SoundManager : NSObject
 
 import AVFoundation
 
-public class SoundManager : NSObject, AVAudioPlayerDelegate
+
+public class Audio
 {
-    public var playlist : [String] = []
-    public var lastSounds : [String] = []
-    fileprivate var previousRequest : String = ""
-    public var _songs =  [AVAudioPlayer?] (repeating: nil, count: 7)
-    fileprivate var soundQueue : [String] = []
-    public var _sounds =  [String : AVAudioPlayer?] () 
-    override init() {
-        
-        super.init()
-        
-        let audioSession = AVAudioSession.sharedInstance()
+    public static let shared = Audio()
+    public static var session : AVAudioSession { shared.session }
+    
+    public var session : AVAudioSession
+    
+    init() {
+        session = AVAudioSession.sharedInstance()
            do {
-            try audioSession.setCategory(AVAudioSession.Category.playback,mode: .default)
+            try session.setCategory(AVAudioSession.Category.playback,mode: .default)
            } catch {
                print("Setting category to AVAudioSessionCategoryPlayback failed.")
            }
                   do {
-                   try audioSession.setActive(true)
+                   try session.setActive(true)
                   } catch {
                       print("Setting session to Active failed.")
                   }
     }
-    public var isPlaying = false
-    func songs(_ index:Int) -> AVAudioPlayer?
-    {
-        
-        let i = index % _songs.count
-        
-        if let song = _songs[i]
-        {
-            return song
-        }
-        guard playlist.count > i else { return nil }
-        let playitem = playlist[i]
-        guard let url =  Music.resource.url(playitem) else { return nil }
-        do {
-            _songs[i] = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue )
-            return _songs[i]
-          
-        } catch let error {
-            print(error.localizedDescription)
-        }
-        
-        return nil
+}
+
+public class SoundManager : NSObject, AVAudioPlayerDelegate
+{
+    public var lastSounds : [String] = []
+    fileprivate var previousRequest : String = ""
+    fileprivate var soundQueue : [String] = []
+    public var _sounds =  [String : AVAudioPlayer?] () 
+    override init() { 
+        super.init()
+        let _ = Audio.session
     }
+    public var isPlaying = false
+    
     func sounds(_ key:String) -> AVAudioPlayer?
     {
         
@@ -293,7 +228,7 @@ public class SoundManager : NSObject, AVAudioPlayerDelegate
     {
         self.previousRequest = soundName
         guard Sound.shared.isPlaying else {
-            stopAllSound()
+            stopAll()
             return }
         
         guard let sound = sounds(soundName) else {return}
@@ -316,7 +251,7 @@ public class SoundManager : NSObject, AVAudioPlayerDelegate
     {
          self.previousRequest = soundName
         guard Sound.shared.isPlaying else {
-            stopAllSound()
+            stopAll()
             return }
         
         guard let sound = sounds(soundName) else {return}
@@ -334,14 +269,14 @@ public class SoundManager : NSObject, AVAudioPlayerDelegate
     {
          self.previousRequest = soundName
         guard Sound.shared.isPlaying else {
-            stopAllSound()
+            stopAll()
             return }
         
         guard let sound = sounds(soundName) else {return}
         if isPlaying {
             soundQueue.removeAll()
             soundQueue.append(soundName)
-            stopAllSound()
+            stopAll()
             return
         }
         isPlaying = true
@@ -353,7 +288,7 @@ public class SoundManager : NSObject, AVAudioPlayerDelegate
     public func playQueuedSound(_ soundName: String) -> Bool
     {
         guard Sound.shared.isPlaying else {
-            stopAllSound()
+            stopAll()
             return true }
         
         guard let sound = sounds(soundName) else {return false}
@@ -373,21 +308,8 @@ public class SoundManager : NSObject, AVAudioPlayerDelegate
             playSound(soundName)
         }
     }
-    public func stopAllMusic(except:Int)
-    {
-        for (i,song) in _songs.enumerated() where song != nil && i != except
-        {
-            song!.stop()
-        }
-    }
-    public func stopAllMusic()
-    {
-        for song in _songs where song != nil
-        {
-            song!.stop()
-        }
-    }
-    public func stopAllSound()
+  
+    public func stopAll()
     {
         soundQueue = []
         for (_, sound) in _sounds where sound != nil
@@ -395,33 +317,12 @@ public class SoundManager : NSObject, AVAudioPlayerDelegate
             sound!.stop()
         }
     }
-    public func musicVolume(volume:Float)
-    {
-        for song in _songs where song != nil
-        {
-            song!.volume = volume
-        }
-    }
-    public func soundVolume(volume:Float)
+    public func volume(_ volume:Float)
     {
         for (_, sound) in _sounds where sound != nil
         {
             sound!.volume = volume
         }
-    }
-    public func playMusic(_ n: Int = 0) {
-        guard n < 7 && playlist.count > n else { return }
-        
-        stopAllMusic(except:n)
-        guard Music.shared.isPlaying else {
-            stopAllMusic()
-            return }
-        guard let song = songs(n) else { return }
-        
-        song.numberOfLoops = -1
-        song.volume =  Music.shared.volume
-        if song.isPlaying {return}
-        song.play()
     }
     public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         

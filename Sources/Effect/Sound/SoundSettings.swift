@@ -18,7 +18,7 @@ public class Sound: ObservableObject, ISoundSettings {
     @Published public var isPlaying : Bool = Sound.defaults.isPlaying { didSet {
         Sound.defaults.isPlaying = self.isPlaying
         if !self.isPlaying  {
-            Sound.player.stopAllSound()
+            Sound.player.stopAll()
         }
     }}
     @Published public var volume : Float  = Sound.defaults.volume
@@ -26,7 +26,7 @@ public class Sound: ObservableObject, ISoundSettings {
     public func save()
     {
         Sound.defaults.volume = self.volume
-        Sound.player.soundVolume(volume: self.volume)
+        Sound.player.volume(self.volume)
     }
     
     static public func chime()
@@ -52,14 +52,14 @@ public class Music: ObservableObject, ISoundSettings {
     public static var shared : ISoundSettings { settings }
     public static var defaults : ISoundSettings = MusicDefaults()
     public static var resource : IMusicRegistry = MusicRegistry()
-    public static var player : SoundManager { get { Sound.player }}
+    public static var player : MusicManager = MusicManager()
      
     @Published public var isPlaying : Bool = Music.defaults.isPlaying { didSet {
         Music.defaults.isPlaying = self.isPlaying
         if self.isPlaying  {
             Music.player.playMusic()
         } else {
-            Music.player.stopAllMusic()
+            Music.player.stopAll()
         }
     }}
     @Published public var volume : Float = Music.defaults.volume
@@ -67,6 +67,6 @@ public class Music: ObservableObject, ISoundSettings {
     public func save()
     {
         Music.defaults.volume = self.volume
-        Music.player.musicVolume(volume: self.volume)
+        Music.player.volume(self.volume)
     }
 }

@@ -13,7 +13,8 @@ public protocol ISoundSettings {
 }
 
 public class Sound: ObservableObject, ISoundSettings {
-    public static var shared : ISoundSettings = Sound()
+    public static var settings : Sound = Sound()
+    public static var shared : ISoundSettings { settings }
     public static var resource : IResourceRegistry = SoundRegistry()
     public static var player : SoundManager = SoundManager()
     
@@ -39,8 +40,9 @@ public class Sound: ObservableObject, ISoundSettings {
     
 }
 
-public class Music: ObservableObject, ISoundSettings {
-    public static var shared : ISoundSettings = Music()
+public class Music: ObservableObject, ISoundSettings { 
+    public static var settings : Music = Music()
+    public static var shared : ISoundSettings { settings }
     public static var resource : IResourceRegistry = MusicRegistry()
     public static var player : SoundManager { get { Sound.player }}
     

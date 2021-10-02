@@ -36,7 +36,7 @@ public class SoundManager : NSObject
         }
         guard playlist.count > i else { return nil }
         let playitem = playlist[i]
-        guard let url = Sound.resource.url(playitem) else { return nil }
+        guard let url = Music.resource.url(playitem) else { return nil }
       
         _songs[i] = NSSound(contentsOfFile: url.description, byReference: true)
             
@@ -61,8 +61,6 @@ public class SoundManager : NSObject
         sound.loops = false
         _sounds[key] = sound
         return sound
-            
-      
     }
     
     public func playSound(_ soundName: String)

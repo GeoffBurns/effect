@@ -8,11 +8,15 @@
 
 import SwiftUI 
 
-struct MusicSettingsView: View {
+public struct MusicSettingsView: View {
     
     @ObservedObject var music : Music = Music.settings  
     
-     var body: some View {
+    public init()
+    { 
+    }
+    
+    public var body: some View {
             VStack(spacing: 10) {
      
                 Toggle(isOn: $music.isPlaying) { Text("Music") }

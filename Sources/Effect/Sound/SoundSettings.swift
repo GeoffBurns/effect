@@ -7,20 +7,29 @@
 import Combine
 import SwiftUI
 
-public protocol ISoundSettings {
-    var isPlaying : Bool { get set }
-    var volume : Float { get set }
-}
-
+ 
 public class Sound: ObservableObject, ISoundSettings {
-    public static var settings : Sound = Sound()
+    public static let settings : Sound = Sound()
     public static var shared : ISoundSettings { settings }
+    public static var defaults : ISoundSettings = SoundDefaults() {
+        didSet{
+            settings.isPlaying = defaults.isPlaying
+            settings.volume = defaults.volume
+        }
+    }
     public static var resource : IResourceRegistry = SoundRegistry()
     public static var player : SoundManager = SoundManager()
     
-    @Published public var isPlaying : Bool = true
-    @Published public var volume : Float = 0.3
-    
+    @Published public var isPlaying : Bool = Sound.defaults.isPlaying { didSet {
+        Sound.defaults.isPlaying = self.isPlaying
+        if !self.isPlaying  {
+            Sound.player.stopAllSound()
+        }
+    }}
+    @Published public var volume : Float  = Sound.defaults.volume { didSet {
+        Sound.defaults.volume = self.volume
+        Sound.player.soundVolume(volume: self.volume)
+    }}
     static public func chime()
     {
         player.playFastSound("magic_chime")
@@ -41,11 +50,27 @@ public class Sound: ObservableObject, ISoundSettings {
 }
 
 public class Music: ObservableObject, ISoundSettings { 
-    public static var settings : Music = Music()
+    public static let settings : Music = Music()
     public static var shared : ISoundSettings { settings }
+    public static var defaults : ISoundSettings = MusicDefaults() {
+        didSet{
+            settings.isPlaying = defaults.isPlaying
+            settings.volume = defaults.volume
+        }
+    }
     public static var resource : IResourceRegistry = MusicRegistry()
     public static var player : SoundManager { get { Sound.player }}
-    
-    @Published public var isPlaying : Bool = true
-    @Published public var volume : Float = 0.3
+     
+    @Published public var isPlaying : Bool = Music.defaults.isPlaying { didSet {
+        Music.defaults.isPlaying = self.isPlaying
+        if self.isPlaying  {
+            Music.player.playMusic()
+        } else {
+            Music.player.stopAllMusic()
+        }
+    }}
+    @Published public var volume : Float = Music.defaults.volume { didSet {
+        Music.defaults.volume = self.volume
+        Music.player.musicVolume(volume: self.volume)
+    }}
 }

@@ -1,0 +1,28 @@
+//
+//  MusicSettingsView.swift
+//
+//
+//  Created by Geoff Burns on 13/11/19.
+//  Copyright © 2019 Geoff Burns. All rights reserved.
+//
+
+import SwiftUI 
+
+struct MusicSettingsView: View {
+    
+    @ObservedObject var music : Music = Music.settings  
+    
+     var body: some View {
+            VStack(spacing: 10) {
+     
+                Toggle(isOn: $music.isPlaying) { Text("Music") }
+             
+                if music.isPlaying
+                {
+                    Slider(value: $music.volume, in: 0.0 ... 1.0)
+                    Text("\(Int(music.volume*100))% volume")
+                }
+            }
+    }
+}
+    

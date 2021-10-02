@@ -251,7 +251,7 @@ public class SoundManager : NSObject, AVAudioPlayerDelegate
         }
         guard playlist.count > i else { return nil }
         let playitem = playlist[i]
-        guard let url =  Sound.resource.url(playitem) else { return nil }
+        guard let url =  Music.resource.url(playitem) else { return nil }
         do {
             _songs[i] = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue )
             return _songs[i]

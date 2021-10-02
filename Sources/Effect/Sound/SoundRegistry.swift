@@ -18,7 +18,7 @@ public protocol IResourceRegistry
 public protocol IMusicRepository : IResourceRepository {
     var playList : [String] { get }
 }
-public protocol IMusicRegistry
+public protocol IMusicRegistry : IResourceRegistry
 {
      func register(_ repo : IMusicRepository)
 }

@@ -18,7 +18,7 @@ public struct MusicSettingsView: View {
     
     public var body: some View {
         
-            Section(header:Text("Sound Effects")) {
+            Section(header:Text("Music")) {
      
                 Toggle(isOn: $music.isPlaying) { Text("Play") }
              

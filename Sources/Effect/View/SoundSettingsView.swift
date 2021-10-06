@@ -17,9 +17,9 @@ public struct SoundSettingsView: View {
     }
     
     public var body: some View {
-            VStack(spacing: 10) {
+        Section(header:Text("Sound Effects")) {
      
-                Toggle(isOn: $sound.isPlaying) { Text("Music") }
+                Toggle(isOn: $sound.isPlaying) { Text("Enable") }
              
                 if sound.isPlaying
                 {

@@ -13,7 +13,7 @@ public struct MusicCommands: Commands {
     {
     }
     
-   public @CommandsBuilder var body: some Commands {
+   @CommandsBuilder public var body: some Commands {
        CommandMenu("Music")
         {
          MusicCommandsView()

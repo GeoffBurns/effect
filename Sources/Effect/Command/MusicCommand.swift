@@ -7,8 +7,13 @@
 
 import SwiftUI
 
-struct MusicCommands: Commands {
-   @CommandsBuilder var body: some Commands {
+public struct MusicCommands: Commands {
+    
+   public init()
+    {
+    }
+    
+   public @CommandsBuilder var body: some Commands {
        CommandMenu("Music")
         {
          MusicCommandsView()
@@ -17,10 +22,15 @@ struct MusicCommands: Commands {
 }
 
 
-struct MusicCommandsView: View {
+public struct MusicCommandsView: View {
     
    @ObservedObject var music : Music = Music.settings
-    var body: some View {
+    
+    public init()
+    {
+    }
+    
+    public var body: some View {
    
         Button("Increase Volume", action: increaseMusic)
                .disabled(!music.isPlaying)

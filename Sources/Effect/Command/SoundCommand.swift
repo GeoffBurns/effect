@@ -8,9 +8,9 @@
 
 import SwiftUI
 
-struct SoundCommands: Commands {
+public struct SoundCommands: Commands {
      
-    @CommandsBuilder var body: some Commands {
+    public @CommandsBuilder var body: some Commands {
          CommandMenu("Sound Effects")
         {
             SoundCommandView()
@@ -19,10 +19,10 @@ struct SoundCommands: Commands {
      
 }
 
-struct SoundCommandView: View {
+public struct SoundCommandView: View {
     
    @ObservedObject var sound : Sound = Sound.settings
-    @ViewBuilder var body: some View { 
+   public @ViewBuilder var body: some View {
             Button("Increase Volume", action: increaseSound)
                     .disabled(!sound.isPlaying)
                     .keyboardShortcut("d")

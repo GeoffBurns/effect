@@ -1,0 +1,14 @@
+/*
+ localizable.strings
+ 
+ Created by Geoff Burns on 18/11/2015.
+ Copyright © 2015 Geoff Burns. All rights reserved.
+ */ 
+Music="Musique";
+Play="Jouer";
+Enable="Activer";
+volume="volume";
+"%d%% volume"="%d%% volume";
+"Sound Effects"="Effets sonores";
+ 
+

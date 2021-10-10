@@ -4,7 +4,8 @@
 import PackageDescription
 
 let package = Package(
-    name: "Effect",
+    name: "Effect", 
+    defaultLocalization: "en",
     platforms: [
           .iOS(.v14),
           .macOS(.v11)
@@ -30,6 +31,7 @@ let package = Package(
                 .process("Sound/magic_chime.mp3"),
                 .process("Sound/shutter_click.mp3"),
                 .process("Sound/sad_trombone.mp3"),
+                .process("Resources"),
             ])
     ]
 )

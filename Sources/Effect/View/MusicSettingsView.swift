@@ -18,14 +18,15 @@ public struct MusicSettingsView: View {
     
     public var body: some View {
         
-            Section(header:Text("Music")) {
+        Section(header:Text("Music".efLocal)) {
      
-                Toggle(isOn: $music.isPlaying) { Text("Play") }
+                Toggle(isOn: $music.isPlaying) { Text("Play".efLocal) }
              
                 if music.isPlaying
                 {
                     Slider(value: $music.volume, in: 0.0 ... 1.0)
-                    Text("\(Int(music.volume*100))% volume")
+            //        Text("\(Int(music.volume*100))% volume")
+                    Text("%d%% volume".efLocalizeWith(Int(music.volume*100)))
                 }
             }
     }

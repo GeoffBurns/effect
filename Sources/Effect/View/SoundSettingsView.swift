@@ -17,14 +17,16 @@ public struct SoundSettingsView: View {
     }
     
     public var body: some View {
-        Section(header:Text("Sound Effects")) {
+        Section(header:Text("Sound Effects".efLocal)) {
      
-                Toggle(isOn: $sound.isPlaying) { Text("Enable") }
+                Toggle(isOn: $sound.isPlaying) { Text("Enable".efLocal) }
              
                 if sound.isPlaying
                 {
                     Slider(value: $sound.volume, in: 0.0 ... 1.0)
-                    Text("\(Int(sound.volume*100))% volume")
+                //    Text("\(Int(sound.volume*100))% volume")
+                    
+                    Text("%d%% volume".efLocalizeWith(Int(sound.volume*100)))
                 }
             }
     }
